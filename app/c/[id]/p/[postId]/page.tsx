@@ -1,5 +1,4 @@
 import type {Metadata} from 'next';
-import {notFound} from 'next/navigation';
 import {APP_DEEP_LINK_PREFIX, FALLBACK_OG_IMAGE_URL, SITE_URL, buildAppDeepLink, buildPostPath} from '@/lib/config';
 import {getShareMetadata} from '@/lib/postMetadata';
 
@@ -34,13 +33,31 @@ export async function generateMetadata({params}: Props): Promise<Metadata> {
 export default async function Page({params}: Props) {
   const {id, postId} = await params;
   const data = await getShareMetadata(id, postId);
-  if (!data) notFound();
   const appLink = buildAppDeepLink(id, postId);
+
+  if (!data) {
+    return (
+      <main>
+        <div className="brand">Touch</div>
+        <article className="card">
+          <img className="media" src={FALLBACK_OG_IMAGE_URL} alt="Touch" />
+          <div className="content">
+            <div className="alias">Touch community post</div>
+            <p className="text">This post is unavailable or private. Open it in the Touch app.</p>
+            <a className="button" href={appLink}>Open in Touch</a>
+          </div>
+        </article>
+      </main>
+    );
+  }
+
+  const isPublic = data.community.contentVisibility === 'public';
+  const image = isPublic && data.post.media?.url ? data.post.media.url : FALLBACK_OG_IMAGE_URL;
   return (
     <main>
       <div className="brand">Touch</div>
       <article className="card">
-        {data.community.contentVisibility === 'public' && data.post.media?.url ? <img className="media" src={data.post.media.url} alt="Shared Touch post" /> : null}
+        <img className="media" src={image} alt={isPublic ? 'Shared Touch post' : 'Touch'} />
         <div className="content">
           <div className="alias">{data.post.alias || 'Anonymous'}</div>
           <p className="muted">Community post on Touch</p>
