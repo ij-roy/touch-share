@@ -8,7 +8,7 @@ export type ShareMetadata = {
 export async function getShareMetadata(communityId: string, postId: string): Promise<ShareMetadata | null> {
   const response = await fetch(
     `${BACKEND_URL}/communities/${encodeURIComponent(communityId)}/content/${encodeURIComponent(postId)}/share-metadata`,
-    {next: {revalidate: 300}},
+    {cache: 'no-store'},
   );
   if (!response.ok) return null;
   return response.json() as Promise<ShareMetadata>;

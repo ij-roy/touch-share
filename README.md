@@ -18,7 +18,7 @@ Copy `.env.example` to `.env.local` for local development. Set the same values i
 - `ANDROID_APPLICATION_ID`: Android package name used by App Links (default `roy.ij.touch`).
 - `ANDROID_SHA256_CERT_FINGERPRINTS`: optional comma-separated SHA-256 certificate fingerprints. The app's current release certificate is included by default; set this when Play App Signing or another release certificate is used. This powers `/.well-known/assetlinks.json` so HTTPS post links open directly in the installed Android app.
 
-The backend share-metadata endpoint must return metadata only for public published posts. Private posts should return `404`.
+The backend share-metadata endpoint returns full metadata for public published posts. For published posts in members-only communities, it returns redacted metadata with empty text and no media so this app can serve the generic Touch OG image without exposing private content. Missing or unpublished posts return `404`.
 
 ## Commands
 
