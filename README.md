@@ -15,6 +15,8 @@ Copy `.env.example` to `.env.local` for local development. Set the same values i
 - `BACKEND_URL`: deployed Touch backend URL.
 - `NEXT_PUBLIC_SITE_URL`: `https://app.touch.dophera.tech`.
 - `NEXT_PUBLIC_APP_DEEP_LINK_PREFIX`: normally `touch://community`.
+- `ANDROID_APPLICATION_ID`: Android package name used by App Links (default `roy.ij.touch`).
+- `ANDROID_SHA256_CERT_FINGERPRINTS`: comma-separated SHA-256 certificate fingerprints. This powers `/.well-known/assetlinks.json` so HTTPS post links open directly in the installed Android app.
 
 The backend share-metadata endpoint must return metadata only for public published posts. Private posts should return `404`.
 
