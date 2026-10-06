@@ -1,6 +1,6 @@
 import type {Metadata} from 'next';
 import {notFound} from 'next/navigation';
-import {APP_DEEP_LINK_PREFIX, SITE_URL, buildAppDeepLink, buildPostPath} from '@/lib/config';
+import {APP_DEEP_LINK_PREFIX, FALLBACK_OG_IMAGE_URL, SITE_URL, buildAppDeepLink, buildPostPath} from '@/lib/config';
 import {getShareMetadata} from '@/lib/postMetadata';
 
 type Props = {params: Promise<{id: string; postId: string}>};
@@ -8,7 +8,7 @@ type Props = {params: Promise<{id: string; postId: string}>};
 export async function generateMetadata({params}: Props): Promise<Metadata> {
   const {id, postId} = await params;
   const data = await getShareMetadata(id, postId);
-  const fallback = `${SITE_URL}/opengraph-image`;
+  const fallback = FALLBACK_OG_IMAGE_URL;
   if (!data) return {title: 'Touch community post', description: 'Read this community post on Touch.', openGraph: {images: [fallback]}};
   const image = data.post.media?.url || fallback;
   const description = data.post.text.trim().replace(/\s+/g, ' ').slice(0, 160);
