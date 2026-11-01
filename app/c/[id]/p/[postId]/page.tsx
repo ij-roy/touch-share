@@ -1,5 +1,5 @@
 import type {Metadata} from 'next';
-import {APP_DEEP_LINK_PREFIX, FALLBACK_OG_IMAGE_URL, SITE_URL, buildAppDeepLink, buildPostPath} from '@/lib/config';
+import {ANDROID_PLAY_STORE_URL, APP_DEEP_LINK_PREFIX, FALLBACK_OG_IMAGE_URL, IOS_APP_STORE_URL, SITE_URL, buildAppDeepLink, buildPostPath} from '@/lib/config';
 import {getShareMetadata} from '@/lib/postMetadata';
 
 const SHARE_EXCERPT_LIMIT = 120;
@@ -9,6 +9,15 @@ function truncateExcerpt(text: string) {
   return normalized.length > SHARE_EXCERPT_LIMIT
     ? `${normalized.slice(0, SHARE_EXCERPT_LIMIT - 1).trimEnd()}…`
     : normalized;
+}
+
+function StoreLinks() {
+  return (
+    <div className="store-links">
+      {IOS_APP_STORE_URL ? <a className="button secondary" href={IOS_APP_STORE_URL}>Download on the App Store</a> : null}
+      <a className="button secondary" href={ANDROID_PLAY_STORE_URL}>Get it on Google Play</a>
+    </div>
+  );
 }
 
 type Props = {params: Promise<{id: string; postId: string}>};
@@ -45,6 +54,7 @@ export default async function Page({params}: Props) {
             <div className="alias">Touch community post</div>
             <p className="text">This post is unavailable or private. Open it in the Touch app.</p>
             <a className="button" href={appLink}>Open in Touch</a>
+            <StoreLinks />
           </div>
         </article>
       </main>
@@ -63,6 +73,7 @@ export default async function Page({params}: Props) {
           <p className="muted">Community post on Touch</p>
           {data.community.contentVisibility === 'public' ? <p className="text">{data.post.text}</p> : <p className="text">This post is available to community members in the Touch app.</p>}
           <a className="button" href={appLink}>Open in Touch</a>
+          <StoreLinks />
           <p className="muted">App link prefix: {APP_DEEP_LINK_PREFIX}</p>
         </div>
       </article>

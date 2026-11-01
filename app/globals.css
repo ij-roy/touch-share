@@ -10,3 +10,5 @@ main { width: min(680px, calc(100% - 32px)); margin: 0 auto; padding: 48px 0; }
 .text { white-space: pre-wrap; font-size: 20px; font-weight: 700; }
 .muted { color: var(--muted); }
 .button { display: inline-block; margin-top: 18px; padding: 13px 18px; border-radius: 999px; background: var(--pink); color: white; font-weight: 800; text-decoration: none; }
+.store-links { display: flex; flex-wrap: wrap; gap: 10px; }
+.button.secondary { background: white; color: var(--pink); border: 2px solid var(--pink); }
